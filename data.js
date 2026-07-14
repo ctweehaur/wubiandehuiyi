@@ -453,4 +453,13 @@ const lessonData = [
 
     ["\n", "", "", ""], // 👈 出处
 
-    ["（", "", "", "",
+    ["（", "", "", "", ""],
+    ["席慕蓉", "xí mù róng", "Xi Murong", "Xi Murong", "席慕蓉"],
+    ["《", "", "", "", ""],
+    ["无边的回忆", "wú biān de huí yì", "Endless Memories", "Kenangan Tanpa Sempadan", "无边的回忆"],
+    ["》", "", "", "", ""],
+    ["，", "", "", "", ""],
+    ["有", "yǒu", "with", "ada", "有"],
+    ["改动", "gǎi dòng", "adaptations", "ubah suai", "改动"],
+    ["）", "", "", "", ""]
+];
