@@ -1,0 +1,515 @@
+/* ==========================================================================
+   🎨 现代华文学习平台全局样式 - style.css (2026 极致美化国风增强版)
+   ========================================================================== */
+
+:root {
+    --bg-color: linear-gradient(135deg, #f4f7f6 0%, #eaefed 100%); /* 护眼莫兰迪柔和微渐变 */
+    --text-color: #2c3e50;
+    --card-bg: #ffffff;
+    --primary-color: #34495e;
+    --accent-color: #2ecc71;
+    --ai-color: #9b59b6;
+    --ruby-color: #e67e22;
+    --input-border: #cbd5e1;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md: 0 10px 25px rgba(44, 62, 80, 0.05);
+}
+
+/* 🌙 暗黑模式适配 */
+[data-theme="dark"] {
+    --bg-color: linear-gradient(135deg, #141414 0%, #202020 100%);
+    --text-color: #e0e0e0;
+    --card-bg: #222222;
+    --primary-color: #bdc3c7;
+    --input-border: #475569;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+    --shadow-md: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-color);
+    background-attachment: fixed;
+    color: var(--text-color);
+    line-height: 1.8;
+    margin: 0;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* 🎛️ 控制面板样式 */
+.control-panel {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.control-panel button {
+    padding: 10px 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
+}
+
+.control-panel button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(44, 62, 80, 0.08);
+}
+
+/* 📝 生词本区域 */
+.vocab-notebook {
+    width: 100%;
+    max-width: 800px;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.notebook-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.clear-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+.clear-btn:hover { opacity: 0.9; }
+
+.notebook-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.notebook-item {
+    background: rgba(52, 152, 219, 0.08);
+    color: #2980b9;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+[data-theme="dark"] .notebook-item {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+}
+
+.notebook-item:hover {
+    background: #3498db;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* 🧩 生词测试游戏区域 */
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(142, 68, 173, 0.05);
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.quiz-card {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.quiz-pinyin {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.quiz-opt-btn {
+    padding: 14px 20px;
+    background: var(--bg-color);
+    border: 1px solid var(--input-border);
+    color: var(--text-color);
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+/* 🛠️ 终极清洗：生词测试选项 Mouse over 时，换成完美的清爽浅蓝色调 */
+.quiz-opt-btn:hover {
+    background: #f0f7fc !important;      
+    border-color: #3498db !important;    
+    color: #2980b9 !important;           
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1) !important; 
+    transform: translateY(-1px);
+}
+
+.quiz-opt-btn.correct {
+    background: #2ecc71 !important;
+    color: white !important;
+    border-color: #2ecc71;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
+.quiz-opt-btn.wrong {
+    background: #e74c3c !important;
+    color: white !important;
+    border-color: #e74c3c;
+    cursor: not-allowed;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* ==========================================================================
+   ⚙️ 针对生词测试大字标题（ID: quizQuestion）的专属跨模式控色补丁
+   ========================================================================== */
+/* ☀️ 日间模式下大生词换成高档的国风深墨黑 */
+#quizQuestion {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2c3e50 !important;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+
+/* 🌙 暗黑模式适配：大生词自动转为清晰的纯白色 */
+[data-theme="dark"] #quizQuestion {
+    color: #ffffff !important;
+}
+
+
+/* 📖 课文文章卡片 */
+.article-card {
+    width: 100%;
+    max-width: 800px;
+    background: var(--card-bg);
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow: var(--shadow-md);
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,0.01);
+}
+
+h1 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-top: 0;
+    margin-bottom: 40px;
+    color: var(--text-color);
+    letter-spacing: 2px;
+}
+
+#content p {
+    text-align: justify;
+    text-justify: inter-ideograph;
+    margin-bottom: 35px;
+    font-size: 19px;
+    letter-spacing: 1.5px;
+    color: var(--text-color);
+}
+
+/* 🎯 段落编号：悬浮小书签样式 */
+.p-index {
+    display: inline-block;
+    font-size: 12px;
+    background: #eef3f0;
+    color: #2c3e50;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    user-select: none;
+    border: 1px solid #d2ded7;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+[data-theme="dark"] .p-index {
+    background: #2d3748;
+    color: #a0aec0;
+    border-color: #4a5568;
+}
+
+/* 🍊 拼音标注（Ruby）极致互动 */
+ruby {
+    ruby-position: over;
+    cursor: pointer;
+    padding: 0 2px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+ruby:hover, ruby.is-active {
+    background: #fff3cd; /* 悬停时字底变浅黄 */
+    color: #d35400;      /* 字变暖橙色 */
+}
+
+[data-theme="dark"] ruby:hover, [data-theme="dark"] ruby.is-active {
+    background: #4a3716;
+    color: #f39c12;
+}
+
+/* 🙈 全篇所有拼音默认隐藏 */
+#content rt {
+    opacity: 0;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+    font-size: 12px;
+    color: var(--ruby-color);
+    font-family: "PingFang SC", "Lucida Grande", sans-serif;
+    padding-bottom: 5px;
+}
+
+/* 🌟 当鼠标指到（hover）或手机点击激活（.is-active）时拼音浮现 */
+#content ruby:hover rt, 
+#content ruby.is-active rt {
+    opacity: 1;
+}
+
+/* 💬 字典词摘气泡弹窗（Popover） */
+.buddy-popover {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 14px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+    padding: 18px;
+    width: 270px;
+    box-sizing: border-box;
+    border: 1px solid var(--input-border);
+}
+
+.pop-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--input-border);
+    padding-bottom: 8px;
+}
+
+.pop-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.pop-pinyin {
+    font-size: 14px;
+    color: #e67e22;
+    font-weight: 600;
+}
+
+.pop-box {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.pop-tag {
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.pop-en { color: #2980b9; }
+.pop-en .pop-tag { background: #3498db; }
+
+.pop-bm { color: #c0392b; }
+.pop-bm .pop-tag { background: #e74c3c; }
+
+.pop-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--input-border);
+}
+
+.pop-btn-copy {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.pop-btn-copy:hover { background: #27ae60; }
+
+.pop-arrow {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid var(--card-bg);
+    transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   ✨ 10道阅读理解选择题特制高级动态交互美化样式
+   ========================================================================== */
+.quiz-choice-btn {
+    position: relative;
+    transition: all 0.15s ease !important;
+}
+
+/* 允许用户在点击时有一个轻微的打击感压陷反馈 */
+.quiz-choice-btn:active:not(:disabled) {
+    transform: scale(0.995);
+}
+
+#quizContainer button:disabled {
+    cursor: not-allowed !important;
+}
+
+/* ☀️ 正常日间模式默认样式 */
+#quizSection h2,
+#quizContainer div {
+    color: #2c3e50 !important; 
+}
+.quiz-choice-btn {
+    background: #ffffff !important;
+    color: #2c3e50 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+.quiz-choice-btn:hover:not(:disabled) {
+    background: #f8fafc !important;
+}
+
+/* 🌟 日间模式下：选中的高档国风蓝色样式 */
+.quiz-choice-btn.selected {
+    background: #f0f8ff !important;
+    border: 2px solid #2980b9 !important; 
+    color: #2980b9 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(41, 128, 185, 0.18) !important;
+}
+
+/* 🟢 日间模式下揭晓正确答案的【浅绿色版】高级卡片风格 */
+.quiz-choice-btn.correct-answer-hint {
+    background: #f4fbf7 !important;       
+    border: 2px solid #2ecc71 !important; 
+    color: #27ae60 !important;            
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.15) !important;
+}
+
+/* 🌟 🌙 暗黑模式下的无缝换肤接管 */
+[data-theme="dark"] #quizSection h2,
+[data-theme="dark"] #quizContainer,
+[data-theme="dark"] #quizContainer div {
+    color: #e0e0e0 !important; 
+}
+
+/* 暗黑模式未选中按钮状态 */
+[data-theme="dark"] .quiz-choice-btn {
+    background: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border: 1px solid #475569 !important;
+}
+[data-theme="dark"] .quiz-choice-btn:hover:not(:disabled) {
+    background: #3d3d3d !important;
+}
+
+/* 🌟 🌙 暗黑模式下：选中的科技荧光蓝样式 */
+[data-theme="dark"] .quiz-choice-btn.selected {
+    background: #1a252f !important;      
+    border: 2px solid #3498db !important; 
+    color: #5dade2 !important;            
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3) !important;
+}
+
+/* 🟢 🌙 暗黑模式下：揭晓正确答案的【浅绿夜色版】卡片风格 */
+[data-theme="dark"] .quiz-choice-btn.correct-answer-hint {
+    background: #1e2d24 !important;       
+    border: 2px solid #2ecc71 !important; 
+    color: #58d68d !important;            
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.25) !important;
+}
+
+/* ==========================================================================
+   👨‍🏫 文本赏析板块特制高级交互与跨模式主题样式
+   ========================================================================== */
+.teacher-p-analysis, [id^="q-analysis-"] {
+    background: #faf5ff !important;
+    border-left: 3px solid #af7ac5 !important;
+    color: #6c3483 !important;
+}
+#teacherArticleAnalysis {
+    background: #f3e5f5 !important;
+    border-left: 4px solid #9b59b6 !important;
+    color: #4a148c !important;
+}
+[data-theme='dark'] #teacherArticleAnalysis {
+    background: #251833 !important;       
+    border-left: 4px solid #bb86fc !important;   
+    color: #e1bee7 !important;             
+}
+[data-theme='dark'] .teacher-p-analysis, 
+[data-theme='dark'] [id^="q-analysis-"] {
+    background: #1d1226 !important;       
+    border-left: 3px solid #a278b5 !important;   
+    color: #d7bde2 !important;             
+}
+
+/* 📱 响应式适配移动端手机 */
+@media (max-width: 600px) {
+    body { padding: 15px 10px; }
+    .article-card { padding: 30px 20px; }
+    #content p { font-size: 17px; }
+    .quiz-options { grid-template-columns: 1fr; }
+}
