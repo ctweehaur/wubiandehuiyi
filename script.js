@@ -20,6 +20,7 @@ window.onload = function() {
         render(); 
         renderNB(); 
         renderMultipleChoiceQuizzes(); 
+        renderSubjectiveQuestions();   // ⬅️ 新增这一行
     }
     
     // 初始化气泡弹窗事件，点击空白处自动收回激活状态
@@ -206,6 +207,98 @@ function renderMultipleChoiceQuizzes() {
         });
 
         qBox.appendChild(oBox);
+        container.appendChild(qBox);
+    });
+}
+
+// ✍️ 主观题渲染器（新增）
+function renderSubjectiveQuestions() {
+    if (typeof subjectiveQuestions === 'undefined' || subjectiveQuestions.length === 0) return;
+
+    const section = document.getElementById('subjectiveSection');
+    const container = document.getElementById('subjectiveContainer');
+    if (!section || !container) return;
+    
+    container.innerHTML = "";
+    section.style.display = "block";
+
+    subjectiveQuestions.forEach((q) => {
+        const qBox = document.createElement('div');
+        qBox.style.marginBottom = "30px";
+        qBox.style.paddingBottom = "20px";
+        qBox.style.borderBottom = "1px dashed #ddd";
+
+        // 题目
+        const qText = document.createElement('div');
+        qText.style.fontWeight = "bold";
+        qText.style.fontSize = "16px";
+        qText.style.marginBottom = "12px";
+        qText.style.lineHeight = "1.7";
+        qText.innerHTML = `${q.id}. ${q.question}`;
+        qBox.appendChild(qText);
+
+        // 作答区
+        const textarea = document.createElement('textarea');
+        textarea.placeholder = "在这里写下你的答案...";
+        textarea.style.width = "100%";
+        textarea.style.minHeight = "100px";
+        textarea.style.padding = "12px";
+        textarea.style.fontSize = "14px";
+        textarea.style.borderRadius = "8px";
+        textarea.style.border = "1.5px solid #ccc";
+        textarea.style.fontFamily = "inherit";
+        textarea.style.lineHeight = "1.7";
+        textarea.style.resize = "vertical";
+        textarea.style.boxSizing = "border-box";
+        qBox.appendChild(textarea);
+
+        // 参考答案按钮
+        const toggleBtn = document.createElement('button');
+        toggleBtn.innerText = "📖 查看参考答案";
+        toggleBtn.style.marginTop = "10px";
+        toggleBtn.style.padding = "8px 18px";
+        toggleBtn.style.background = "#3498db";
+        toggleBtn.style.color = "white";
+        toggleBtn.style.border = "none";
+        toggleBtn.style.borderRadius = "20px";
+        toggleBtn.style.cursor = "pointer";
+        toggleBtn.style.fontSize = "13px";
+        toggleBtn.style.fontWeight = "bold";
+        qBox.appendChild(toggleBtn);
+
+        // 参考答案区（默认隐藏）
+        const answerBox = document.createElement('div');
+        answerBox.style.display = "none";
+        answerBox.style.marginTop = "12px";
+        answerBox.style.padding = "14px 18px";
+        answerBox.style.background = "#eafaf1";
+        answerBox.style.borderLeft = "4px solid #2ecc71";
+        answerBox.style.borderRadius = "6px";
+        answerBox.style.fontSize = "14px";
+        answerBox.style.lineHeight = "1.8";
+
+        let answerHTML = `<div style="font-weight:bold; color:#27ae60; margin-bottom:8px;">✅ 参考答案：</div>`;
+        answerHTML += `<div style="color:#2c3e50; margin-bottom:10px;">${q.modelAnswer}</div>`;
+        
+        if (q.teacherAnalysis) {
+            answerHTML += `<div style="font-weight:bold; color:#8e44ad; margin-top:12px; margin-bottom:6px;">📐 设题意图与核心考点：</div>`;
+            answerHTML += `<div style="color:#555;">${q.teacherAnalysis}</div>`;
+        }
+        answerBox.innerHTML = answerHTML;
+
+        toggleBtn.onclick = () => {
+            if (answerBox.style.display === "none") {
+                answerBox.style.display = "block";
+                toggleBtn.innerText = "🙈 收起参考答案";
+                toggleBtn.style.background = "#95a5a6";
+            } else {
+                answerBox.style.display = "none";
+                toggleBtn.innerText = "📖 查看参考答案";
+                toggleBtn.style.background = "#3498db";
+            }
+        };
+
+        qBox.appendChild(answerBox);
         container.appendChild(qBox);
     });
 }
