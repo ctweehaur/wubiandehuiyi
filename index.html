@@ -3,92 +3,1902 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>华文智能互动学习阅读器</title>
-    <link rel="stylesheet" href="style.css">
+    <title>华文智能互动学习阅读器 - 宣纸克莱因灰蓝精调版</title>
+    <style>
+        /* ==========================================================================
+           📜 宣纸底色 × 矿物克莱因灰蓝精调配色系统 (Harmonized Xuan Paper & Slate-Blue)
+           ========================================================================== */
+
+        :root {
+            /* 📜 1. 基底：温润宣纸与松烟墨字（冷暖平衡，绝不刺眼） */
+            --bg-color: #f6f3ea;
+            --bg-gradient: radial-gradient(circle at 20% 20%, #fbf9f4 0%, #ede7d8 100%);
+            --text-color: #1e242b;         /* 松烟浓墨：比纯黑更柔和，带一丝微不可察的深蓝灰 */
+            --text-muted: #686359;         /* 淡墨褐灰：与宣纸同色系的辅助字色 */
+            --card-bg: #fdfbf7;            /* 熟宣白卡片：温润通透 */
+            
+            /* 🔷 2. 主色调：矿物克莱因灰蓝（全局统一主色） */
+            --primary-color: #2b4c65;
+            --primary-hover: #1d3649;
+
+            /* 💧 3. 水痕洗染底色（半透明矿物蓝融入宣纸，全局统一） */
+            --notebook-color: #2b4c65;
+            --notebook-bg: rgba(43, 76, 101, 0.08);
+
+            /* 🖋️ 4. 文本赏析：与主色调完全统一 */
+            --ai-color: #2b4c65;
+            --ai-bg: rgba(43, 76, 101, 0.06);
+
+            /* ⚖️ 5. 正误状态色（高对比清晰可读，克制不刺眼） */
+            --accent-color: #2b4c65;       /* 正确/强调：统一矿物克莱因灰蓝 */
+            --accent-bg: rgba(43, 76, 101, 0.09);
+            
+            --wrong-color: #8c5347;        /* 按钮/清空：低饱和度陶土灰褐 */
+            --wrong-bg: #f3e8e6;           /* 错题选项底色：柔和浅陶灰底 */
+            --wrong-text: #7f392d;         /* 错题选项文字：高对比深陶褐字（清晰可读） */
+            --wrong-border: #c99e95;       /* 错题选项边框 */
+
+            --ruby-color: #7c6850;         /* 拼音：亚麻古铜褐，与宣纸自然呼应 */
+            --input-border: #dcd5c5;       /* 宣纸亚麻边框：消除冷灰割裂感 */
+            --shadow-sm: 0 4px 10px -2px rgba(45, 40, 32, 0.05), 0 2px 4px -1px rgba(45, 40, 32, 0.03);
+            --shadow-md: 0 18px 35px -8px rgba(45, 40, 32, 0.07), 0 8px 12px -6px rgba(45, 40, 32, 0.04);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+
+            /* 🔠 动态字号变量（支持 A- / A+ 无级缩放） */
+            --article-font-size: 19.5px;
+            --ruby-font-size: 12.5px;
+        }
+
+        /* 🌙 暗黑模式：月夜砚台与星光灰蓝 */
+        [data-theme="dark"] {
+            --bg-color: #0d1218;
+            --bg-gradient: radial-gradient(circle at top right, #161f29 0%, #0d1218 100%);
+            --text-color: #e6e4de;         /* 暖米灰白字：夜读不伤眼 */
+            --text-muted: #8e99a6;
+            --card-bg: #151d26;            /* 砚台深灰蓝卡片底 */
+            
+            --primary-color: #6b9ac4;      /* 夜读清亮灰蓝 */
+            --primary-hover: #8bb3d6;
+            
+            --notebook-color: #8bb3d6;
+            --notebook-bg: rgba(107, 154, 196, 0.14);
+
+            --ai-color: #8bb3d6;
+            --ai-bg: rgba(107, 154, 196, 0.08);
+
+            --accent-color: #6b9ac4;
+            --accent-bg: rgba(107, 154, 196, 0.16);
+            
+            --wrong-color: #a86456;
+            --wrong-bg: rgba(168, 100, 86, 0.22);
+            --wrong-text: #f5c2b8;         /* 暗黑模式错题亮暖褐字，确保清晰可见 */
+            --wrong-border: #a86456;
+
+            --ruby-color: #b5a68f;
+            --input-border: #2a3644;
+            --shadow-sm: 0 4px 8px -1px rgba(0, 0, 0, 0.45);
+            --shadow-md: 0 18px 35px -5px rgba(0, 0, 0, 0.65);
+        }
+
+        /* 🌟 极简纤细优雅滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cfc7b4;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b0a690;
+        }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb {
+            background: #2a3644;
+        }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+            background: #3d4e61;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-color);
+            line-height: 2.1;
+            margin: 0;
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* ==========================================================================
+           🧭 顶栏左右分组工具栏 & 可折叠生词本
+           ========================================================================== */
+        .top-container {
+            width: 100%;
+            max-width: 1440px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* 🔘 顶栏按钮全局统一风格 */
+        .control-panel button {
+            padding: 9px 16px;
+            border: 1px solid var(--input-border);
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13.5px;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .control-panel button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--accent-bg);
+        }
+
+        .control-panel button.is-active {
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+        }
+        .control-panel button.is-active:hover {
+            background: var(--primary-hover);
+            color: #ffffff;
+        }
+
+        /* 字号调节紧凑按钮组 */
+        .font-zoom-group {
+            display: inline-flex;
+            border: 1px solid var(--input-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+        }
+        .font-zoom-group button {
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 9px 13px;
+            font-size: 13px;
+        }
+        .font-zoom-group button:first-child {
+            border-right: 1px solid var(--input-border);
+        }
+        .font-zoom-group button:hover {
+            transform: none;
+        }
+
+        /* 📖 生词本支持词数统计与折叠收纳 */
+        .vocab-notebook {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 16px 24px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            box-sizing: border-box;
+            border: 1px solid var(--input-border);
+            transition: all 0.25s ease;
+        }
+
+        .notebook-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--text-color);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .notebook-title-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .nb-count-badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 12px;
+            background: var(--notebook-bg);
+            color: var(--notebook-color);
+            border: 1px solid rgba(43, 76, 101, 0.18);
+        }
+
+        .notebook-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nb-action-btn {
+            background: var(--notebook-bg);
+            color: var(--notebook-color);
+            border: 1px solid rgba(43, 76, 101, 0.2);
+            padding: 4px 13px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .nb-action-btn:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+        }
+
+        .nb-action-btn.danger:hover {
+            background: var(--wrong-color);
+            color: #ffffff;
+            border-color: var(--wrong-color);
+        }
+
+        .notebook-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--input-border);
+        }
+
+        .vocab-notebook.is-collapsed .notebook-list {
+            display: none;
+        }
+
+        .notebook-item {
+            background: var(--notebook-bg);
+            color: var(--notebook-color);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(43, 76, 101, 0.18);
+            transition: all 0.2s;
+        }
+
+        .notebook-item:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* ==========================================================================
+           🖥️ 左右双栏 5.8 : 4.2 黄金阅读比 (1.38fr : 1fr)
+           ========================================================================== */
+        .workspace-layout {
+            display: grid;
+            grid-template-columns: 1.38fr 1fr;
+            gap: 24px;
+            width: 100%;
+            max-width: 1440px;
+            align-items: start;
+            transition: all 0.3s ease;
+        }
+
+        /* 生词测试弹窗区 */
+        .game-container {
+            width: 100%;
+            max-width: 1440px;
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 22px;
+            box-sizing: border-box;
+            border: 1px solid var(--input-border);
+        }
+
+        .quiz-card { text-align: center; padding: 10px 0; }
+        .quiz-pinyin { font-size: 16px; color: var(--ruby-color); margin-bottom: 25px; font-weight: 600; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .quiz-opt-btn {
+            padding: 14px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-color);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .quiz-opt-btn:hover {
+            background: var(--accent-bg) !important;
+            border-color: var(--primary-color) !important;
+            color: var(--primary-color) !important;
+        }
+        .quiz-opt-btn.correct { background: var(--accent-color) !important; color: white !important; border-color: var(--accent-color); }
+        .quiz-opt-btn.wrong { background: var(--wrong-bg) !important; color: var(--wrong-text) !important; border: 1.5px dashed var(--wrong-border) !important; cursor: not-allowed; }
+
+        #quizQuestion {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: 2px;
+        }
+
+        /* ==========================================================================
+           📄 左侧课文卡片 & 段落联动呼吸高亮
+           ========================================================================== */
+        .article-card {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 42px 46px 42px 72px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            box-sizing: border-box;
+            border: 1px solid var(--input-border);
+            max-height: 82vh;
+            overflow-y: auto;
+            transition: max-height 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 31px;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 32px;
+            margin-left: -26px;
+            letter-spacing: 2px;
+            font-family: "KaiTi", "STKaiti", serif;
+            color: var(--text-color);
+        }
+
+        #content p {
+            text-align: justify;
+            text-justify: inter-ideograph;
+            margin-bottom: 32px;
+            font-size: var(--article-font-size);
+            letter-spacing: 1.6px;
+            border-radius: 8px;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        /* 📍 点击题目“第X段”时的左侧课文水墨呼吸高亮动画 */
+        @keyframes paragraphPulse {
+            0% { background-color: var(--accent-bg); box-shadow: 0 0 0 6px var(--accent-bg); }
+            70% { background-color: var(--accent-bg); box-shadow: 0 0 0 6px var(--accent-bg); }
+            100% { background-color: transparent; box-shadow: none; }
+        }
+        .p-highlight-flash {
+            animation: paragraphPulse 1.8s ease-out;
+        }
+
+        .p-index {
+            position: absolute;
+            left: -54px;
+            top: 6px;
+            width: 44px;
+            text-align: center;
+            text-indent: 0;
+            font-size: 11.5px;
+            line-height: 1.6;
+            background: var(--notebook-bg);
+            color: var(--notebook-color);
+            padding: 1px 0;
+            border-radius: 5px;
+            font-weight: 700;
+            user-select: none;
+            border: 1px solid rgba(43, 76, 101, 0.16);
+            transition: all 0.25s ease;
+        }
+        .p-highlight-flash .p-index {
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+        }
+
+        /* 📍 右侧题目中的“📍第X段”可点击定位芯片 */
+        .para-jump-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 7px;
+            margin: 0 2px;
+            font-size: 0.9em;
+            font-weight: 800;
+            color: var(--primary-color);
+            background: var(--notebook-bg);
+            border: 1px solid rgba(43, 76, 101, 0.22);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            line-height: 1.5;
+        }
+        .para-jump-link:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        ruby { ruby-position: over; cursor: pointer; padding: 0 2px; border-radius: 4px; transition: all 0.2s ease; }
+        ruby:hover, ruby.is-active { background: var(--accent-bg); color: var(--primary-color); }
+
+        /* 🔤 拼音三态控制（悬停显示 / 全局显示 / 完全隐藏） */
+        #content rt {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            user-select: none;
+            font-size: var(--ruby-font-size);
+            color: var(--ruby-color);
+            font-weight: 700;
+            padding-bottom: 6px;
+        }
+        #content ruby:hover rt, #content ruby.is-active rt { opacity: 1; }
+        #content[data-pinyin-mode="show"] rt { opacity: 1 !important; }
+        #content[data-pinyin-mode="hide"] rt { opacity: 0 !important; }
+
+        /* ==========================================================================
+           🗂️ 右侧题目卡片 & 顶部吸顶分段标签栏 (Segmented Tabs)
+           ========================================================================== */
+        .quiz-side-card {
+            width: 100%;
+            background: var(--card-bg);
+            padding: 0 36px 38px 36px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            box-sizing: border-box;
+            border: 1px solid var(--input-border);
+            max-height: 82vh;
+            overflow-y: auto;
+            display: none;
+            transition: max-height 0.3s ease;
+            scroll-behavior: smooth;
+        }
+
+        .quiz-sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: var(--card-bg);
+            padding: 24px 0 16px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--input-border);
+        }
+
+        .quiz-tabs-bar {
+            display: flex;
+            background: var(--notebook-bg);
+            padding: 4px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(43, 76, 101, 0.14);
+            gap: 4px;
+        }
+
+        .quiz-tab-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            font-weight: 700;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .quiz-tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .quiz-tab-btn.is-active {
+            background: var(--primary-color);
+            color: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed var(--input-border);
+        }
+
+        .section-sub-header h2 {
+            font-size: 18px;
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        /* 题目块与漏题闪烁提醒动画 */
+        .quiz-question-box {
+            margin-bottom: 22px;
+            padding: 12px 14px 18px 14px;
+            margin-left: -14px;
+            margin-right: -14px;
+            border-bottom: 1px dashed var(--input-border);
+            border-radius: var(--radius-md);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        @keyframes unanswerPulse {
+            0%, 100% { background-color: transparent; box-shadow: none; }
+            25%, 75% { background-color: var(--wrong-bg); box-shadow: 0 0 0 2px var(--wrong-border); }
+        }
+        .quiz-unanswered-flash {
+            animation: unanswerPulse 1.5s ease-in-out;
+        }
+
+        /* ==========================================================================
+           💬 词典气泡弹窗（支持上下双向智能翻转防遮挡）
+           ========================================================================== */
+        .buddy-popover {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: 20px;
+            width: 290px;
+            box-sizing: border-box;
+            border: 1.5px solid var(--primary-color);
+            animation: popIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .pop-title-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--input-border); padding-bottom: 10px; }
+        .pop-title { font-size: 24px; font-weight: 800; font-family: "KaiTi", serif; }
+        .pop-pinyin { font-size: 14px; color: var(--ruby-color); font-weight: 800; }
+        .pop-box { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; margin-bottom: 10px; line-height: 1.5; font-weight: 600; }
+        .pop-tag { font-size: 11px; font-weight: 800; color: white; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; background: var(--primary-color); }
+        .pop-en { color: var(--primary-color); } .pop-en .pop-tag { background: var(--primary-color); }
+        .pop-bm { color: var(--text-muted); } .pop-bm .pop-tag { background: var(--ruby-color); }
+        .pop-footer { display: flex; justify-content: flex-end; margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--input-border); }
+        .pop-btn-copy { background: var(--primary-color); color: white; border: none; padding: 6px 16px; border-radius: var(--radius-md); font-size: 13px; cursor: pointer; font-weight: 800; transition: opacity 0.2s; }
+        .pop-btn-copy:hover { opacity: 0.9; }
+
+        .pop-arrow {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--primary-color);
+            transform: translateX(-50%);
+        }
+        .buddy-popover.is-flipped .pop-arrow {
+            bottom: auto;
+            top: -8px;
+            border-top: none;
+            border-bottom: 8px solid var(--primary-color);
+        }
+
+        /* 🔘 客观选择题选项按钮样式 */
+        .quiz-choice-btn { 
+            background: var(--card-bg) !important; 
+            color: var(--text-color) !important; 
+            border: 1px solid var(--input-border) !important; 
+            font-weight: 600; 
+            transition: all 0.15s ease !important; 
+            opacity: 1 !important;
+        }
+        .quiz-choice-btn:hover:not(:disabled) {
+            background: var(--accent-bg) !important;
+            border-color: var(--primary-color) !important;
+            color: var(--primary-color) !important;
+            transform: translateY(-1px);
+        }
+        .quiz-choice-btn.selected { 
+            background: var(--accent-bg) !important; 
+            border: 2px solid var(--primary-color) !important; 
+            color: var(--primary-color) !important; 
+            font-weight: 800 !important; 
+        }
+        .quiz-choice-btn.correct-answer-hint { 
+            background: var(--accent-color) !important; 
+            border: 2px solid var(--accent-color) !important; 
+            color: #ffffff !important; 
+            font-weight: 800 !important; 
+        }
+        .quiz-choice-btn.wrong-answer-hint {
+            background: var(--wrong-bg) !important;
+            border: 1.5px dashed var(--wrong-border) !important;
+            color: var(--wrong-text) !important;
+            font-weight: 700 !important;
+        }
+
+        /* 简答题文本框样式 */
+        .essay-textarea {
+            width: 100%;
+            height: 95px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--input-border);
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 14.5px;
+            font-weight: 500;
+            resize: vertical;
+            box-sizing: border-box;
+            margin-top: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .essay-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(43, 76, 101, 0.14);
+        }
+
+        /* 简答题参考答案容器 */
+        .essay-answer-box {
+            display: none;
+            margin-top: 10px;
+            padding: 14px;
+            background: var(--accent-bg);
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+            line-height: 1.7;
+        }
+
+        /* 📋 作答报告底部导出栏 */
+        .report-action-bar {
+            margin-top: 28px;
+            padding: 16px 18px;
+            background: var(--ai-bg);
+            border: 1px dashed var(--input-border);
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* 🌟 文本赏析与考点解析 */
+        .teacher-p-analysis, [id^="q-analysis-"], [id^="essay-analysis-"] {
+            background: var(--ai-bg) !important;
+            border: 1px solid var(--input-border);
+            border-left: 4px solid var(--ai-color) !important;
+            color: var(--ai-color) !important;
+            padding: 14px 18px;
+            margin: 12px 0 22px 0;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        #teacherArticleAnalysis {
+            background: var(--ai-bg) !important;
+            border: 1px solid var(--input-border);
+            border-left: 4px solid var(--ai-color) !important;
+            color: var(--ai-color) !important;
+            padding: 20px;
+            margin-bottom: 25px;
+            margin-left: -26px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+        }
+
+        @media (max-width: 1080px) {
+            .workspace-layout { grid-template-columns: 1fr; }
+            .article-card, .quiz-side-card { max-height: none; }
+            .article-card { padding: 32px 24px 32px 62px; }
+        }
+
+        /* ==========================================================================
+           🖨️ 专属打印与 PDF 导出优化样式 (@media print)
+           ========================================================================== */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .control-panel,
+            .notebook-actions,
+            .quiz-sticky-header,
+            #gameContainer,
+            #buddyPopover,
+            #submitQuizBtn,
+            #retryQuizBtn,
+            #showCorrectBtn,
+            .report-action-bar,
+            .no-print {
+                display: none !important;
+            }
+            .top-container {
+                margin-bottom: 15px !important;
+            }
+            .vocab-notebook {
+                box-shadow: none !important;
+                border: 1px solid #94a3b8 !important;
+                padding: 12px 16px !important;
+                page-break-inside: avoid;
+            }
+            .vocab-notebook.is-collapsed .notebook-list {
+                display: flex !important;
+            }
+            .workspace-layout {
+                display: block !important;
+                width: 100% !important;
+            }
+            .article-card,
+            .quiz-side-card {
+                max-height: none !important;
+                overflow: visible !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 10px 0 10px 58px !important;
+                background: #ffffff !important;
+                width: 100% !important;
+            }
+            .quiz-side-card {
+                padding-left: 0 !important;
+                margin-top: 25px !important;
+                border-top: 2px solid #2b4c65 !important;
+                padding-top: 20px !important;
+            }
+            #mcSectionWrapper,
+            #essaySectionWrapper {
+                display: block !important;
+            }
+            .quiz-choice-btn {
+                border: 1px solid #94a3b8 !important;
+                page-break-inside: avoid;
+            }
+            .essay-textarea {
+                border: 1px solid #64748b !important;
+                min-height: 90px !important;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="control-panel">
-        <button id="themeToggleBtn" onclick="toggleTheme()">🌓 切换主题</button>
-        <button id="gameToggleBtn" onclick="toggleGameMode()">🎯 生词测试</button>
-        <button id="teacherToggleBtn" onclick="toggleTeacherMode()" style="background: #9b59b6; color: white;">👁️ 文本赏析</button>
-    </div>
-
-    <div class="vocab-notebook">
-        <div class="notebook-title">
-            <span>📖 我的生词本</span>
-            <button class="clear-btn" onclick="forceClearNotebook()">清空本子 🗑️</button>
+    <!-- 顶栏操作区（左右功能分组 + 字号无级缩放） -->
+    <div id="topContainer" class="top-container">
+        <div class="control-panel">
+            <!-- 左侧：核心阅读与教学交互开关 -->
+            <div class="control-group">
+                <button id="pinyinToggleBtn" onclick="togglePinyinMode()">🔤 拼音：悬停</button>
+                <button id="teacherToggleBtn" onclick="toggleTeacherMode()">👁️ 文本赏析</button>
+                <button id="gameToggleBtn" onclick="toggleGameMode()">🎯 生词测试</button>
+                <button id="focusToggleBtn" onclick="toggleFocusMode()">📖 专注模式</button>
+            </div>
+            <!-- 右侧：字号缩放、全局导出与视图环境工具 -->
+            <div class="control-group">
+                <div class="font-zoom-group" title="调整课文正文字号大小">
+                    <button onclick="adjustFontSize(-1.5)">A-</button>
+                    <button onclick="adjustFontSize(1.5)">A+</button>
+                </div>
+                <button id="topReportBtn" onclick="generateStudyReport(this)">📋 复制学习报告</button>
+                <button onclick="window.print()">🖨️ 打印 / PDF</button>
+                <button id="themeToggleBtn" onclick="toggleTheme()">🌓 切换主题</button>
+            </div>
         </div>
-        <div id="notebookList" class="notebook-list"></div>
+
+        <!-- 支持词数统计与一键折叠的生词本 -->
+        <div id="vocabNotebookCard" class="vocab-notebook">
+            <div class="notebook-title">
+                <div class="notebook-title-left" onclick="toggleNotebookCollapse()" title="点击折叠或展开生词本">
+                    <span>📖 我的生词本</span>
+                    <span id="nbCountBadge" class="nb-count-badge">0 词</span>
+                </div>
+                <div class="notebook-actions">
+                    <button id="collapseNbBtn" class="nb-action-btn" onclick="toggleNotebookCollapse()">收起 ▲</button>
+                    <button id="exportNbBtn" class="nb-action-btn" onclick="exportNotebook(this)">导出词表 📋</button>
+                    <button class="nb-action-btn danger" onclick="forceClearNotebook()">清空本子 🗑️</button>
+                </div>
+            </div>
+            <div id="notebookList" class="notebook-list"></div>
+        </div>
     </div>
 
+    <!-- 生词测试全屏浮层 -->
     <div id="gameContainer" class="game-container" style="display: none;">
         <div class="quiz-card">
-            <div id="quizProgress" style="font-size: 14px; color: #7f8c8d; margin-bottom: 5px;"></div>
+            <div id="quizProgress" style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px; font-weight: 700;"></div>
             <div id="quizQuestion" class="quiz-question"></div>
             <div id="quizPinyin" class="quiz-pinyin"></div>
             <div id="quizOptions" class="quiz-options"></div>
         </div>
     </div>
 
-    <div class="article-card">
-        <h1 id="articleTitle">课文加载中...</h1>
-        <div id="teacherArticleAnalysis" style="display: none; background: #f3e5f5; border-left: 4px solid #9b59b6; padding: 15px; margin-bottom: 20px; border-radius: 4px; font-size: 14px; color: #4a148c; position: relative;">
-            <div id="teacherArticleAnalysisContent"></div>
+    <!-- 左右双栏主工作区 -->
+    <div class="workspace-layout">
+        <!-- 左侧：课文与总览赏析 -->
+        <div id="articleCard" class="article-card">
+            <h1 id="articleTitle">课文加载中...</h1>
+            <div id="teacherArticleAnalysis" style="display: none; position: relative;">
+                <div id="teacherArticleAnalysisContent"></div>
+            </div>
+            <div id="content" data-pinyin-mode="hover"></div>
         </div>
-        <div id="content"></div>
-    </div>
 
-    <div id="quizSection" class="article-card" style="margin-top: 30px; display: none;">
-        <h2 style="font-size: 20px; color: #2c3e50; margin-bottom: 20px; border-bottom: 2px dashed #bdc3c7; padding-bottom: 10px;">📝 选择题</h2>
-        
-        <div id="quizContainer"></div>
+        <!-- 右侧：客观题及简答题区 -->
+        <div id="quizSection" class="quiz-side-card">
+            <div class="quiz-sticky-header">
+                <div class="quiz-tabs-bar">
+                    <button id="tabBtnMc" class="quiz-tab-btn is-active" onclick="switchQuizTab('mc')">📝 客观选择题</button>
+                    <button id="tabBtnEssay" class="quiz-tab-btn" onclick="switchQuizTab('essay')">✍️ 主观简答题</button>
+                    <button id="tabBtnAll" class="quiz-tab-btn" onclick="switchQuizTab('all')">📋 全部展开</button>
+                </div>
+            </div>
 
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #eaefed; text-align: center;">
-            <button id="submitQuizBtn" onclick="submitAndShowWrongOnly()" style="padding: 12px 30px; background: #34495e; color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
-                提交检查 🚀
-            </button>
-            
-            <button id="retryQuizBtn" onclick="retryQuizAnswers()" style="display: none; padding: 12px 30px; background: #e67e22; color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; margin-right: 10px;">
-                重新作答 🔄
-            </button>
+            <!-- 面板一：客观选择题 -->
+            <div id="mcSectionWrapper">
+                <div class="section-sub-header">
+                    <h2>📝 一、选择题（客观题）</h2>
+                    <span id="mcSubProgressHint" style="font-size: 12.5px; color: var(--text-muted); font-weight: 700;">作答后自动滚向下一题</span>
+                </div>
+                <div id="quizContainer"></div>
 
-            <button id="showCorrectBtn" onclick="revealRealCorrectAnswers()" style="display: none; padding: 12px 30px; background: #2ecc71; color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
-                查看正确答案 👁️
-            </button>
+                <div id="mcSubmitFooter" class="no-print" style="margin-top: 25px; padding-top: 15px; border-top: 2px solid var(--input-border); text-align: center;">
+                    <button id="submitQuizBtn" onclick="submitAndShowWrongOnly()" style="padding: 12px 32px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer; transition: opacity 0.2s;">
+                        提交客观题检查 🚀
+                    </button>
+                    <button id="retryQuizBtn" onclick="retryQuizAnswers()" style="display: none; padding: 12px 32px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--input-border); border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer; margin-right: 10px;">
+                        重新作答 🔄
+                    </button>
+                    <button id="showCorrectBtn" onclick="revealRealCorrectAnswers()" style="display: none; padding: 12px 32px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 25px; font-size: 15px; font-weight: 800; cursor: pointer;">
+                        查看客观题答案 👁️
+                    </button>
+                    <div id="quizResultScore" style="margin-top: 15px; font-size: 17px; font-weight: 800; color: var(--primary-color); display: none; line-height: 1.6;"></div>
+                </div>
+            </div>
 
-            <div id="quizResultScore" style="margin-top: 15px; font-size: 18px; font-weight: bold; color: #2ecc71; display: none; line-height: 1.6;"></div>
+            <!-- 面板二：主观简答题 -->
+            <div id="essaySectionWrapper" style="display: none;">
+                <div class="section-sub-header">
+                    <h2>✍️ 二、简答题（主观题）</h2>
+                    <button class="no-print nb-action-btn danger" onclick="clearEssayDrafts()" title="清空所有简答题输入草稿">清空简答草稿 🗑️</button>
+                </div>
+                <div id="essayContainer"></div>
+            </div>
+
+            <!-- 底部一键生成作答报告栏 -->
+            <div class="report-action-bar">
+                <div style="font-size: 13px; color: var(--text-muted); font-weight: 600;">
+                    💡 完成后可一键复制学习记录提交给老师，或导出 PDF 讲义。
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button onclick="generateStudyReport(this)" style="padding: 7px 16px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 20px; font-size: 12.5px; font-weight: 800; cursor: pointer;">
+                        📋 复制学习报告
+                    </button>
+                    <button onclick="window.print()" style="padding: 7px 16px; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--input-border); border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer;">
+                        🖨️ 导出 PDF
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- ⬇️ 新增：主观题区域 -->
-    <div id="subjectiveSection" class="article-card" style="margin-top: 30px; display: none;">
-        <h2 style="font-size: 20px; color: #2c3e50; margin-bottom: 20px; border-bottom: 2px dashed #bdc3c7; padding-bottom: 10px;">✍️ 主观题</h2>
-        <div id="subjectiveContainer"></div>
-    </div>
-
+    <!-- 词典气泡弹窗 -->
     <div id="buddyPopover" class="buddy-popover">
         <div class="pop-title-row">
             <span id="popWord" class="pop-title">词</span>
             <span id="popPinyin" class="pop-pinyin">[pīn yīn]</span>
         </div>
-        <div class="pop-box pop-en">
-            <span class="pop-tag">EN</span>
-            <span id="popEn">English translation</span>
-        </div>
-        <div class="pop-box pop-bm">
-            <span class="pop-tag">BM</span>
-            <span id="popBm">Terjemahan Melayu</span>
-        </div>
-        <div class="pop-footer">
-            <button class="pop-btn-copy" onclick="saveToNotebook(event)">Copy 📋</button>
-        </div>
+        <div class="pop-box pop-en"><span class="pop-tag">EN</span><span id="popEn"></span></div>
+        <div class="pop-box pop-bm"><span class="pop-tag">BM</span><span id="popBm"></span></div>
+        <div class="pop-footer"><button class="pop-btn-copy" onclick="saveToNotebook(event)">Copy 📋</button></div>
         <div id="popArrow" class="pop-arrow"></div>
     </div>
 
+    <!-- 🔗 外部独立数据挂载文件 -->
     <script src="data.js"></script>
     <script src="questions.js"></script>
     <script src="analysis.js"></script>
-    <script src="script.js"></script>
+
+    <!-- ⚙️ 阅读器核心逻辑控制大脑 -->
+    <script>
+        /* ==========================================================================
+           🔐 优化 1：基于 lessonTitle 的多课存储自动隔离机制（防串台且兼容旧数据）
+           ========================================================================== */
+        const LESSON_NAMESPACE = (typeof lessonTitle !== 'undefined' && lessonTitle.trim() !== '')
+            ? lessonTitle.trim().replace(/\s+/g, '_')
+            : 'default_lesson';
+        const SAVED_WORDS_KEY = `saved_words_${LESSON_NAMESPACE}`;
+        const getEssayStorageKey = (id) => `essay_draft_${LESSON_NAMESPACE}_${id}`;
+
+        let currentIdx = -1; 
+        let saved = [];
+        let quizData = [];
+        let currentQuizIdx = 0;
+        let isLocked = false;
+        let isTeacherMode = false;
+        let isFocusMode = false;
+        let isNbCollapsed = false;
+        let currentQuizTab = 'mc'; // 'mc' | 'essay' | 'all'
+        let pinyinMode = 'hover';
+        let isQuizSubmitted = false;
+        let userSelectedAnswers = {};
+        let currentFontSize = parseFloat(localStorage.getItem('reader_pref_font_size')) || 19.5;
+
+        /* 初始化加载生词本数据（自动平滑迁移旧版 saved_104 数据并校验合法性） */
+        function initSavedWords() {
+            let raw = localStorage.getItem(SAVED_WORDS_KEY);
+            if (!raw) {
+                const legacy = localStorage.getItem('saved_104');
+                if (legacy) {
+                    raw = legacy;
+                    localStorage.setItem(SAVED_WORDS_KEY, legacy);
+                }
+            }
+            try {
+                let parsed = JSON.parse(raw) || [];
+                if (typeof lessonData !== 'undefined') {
+                    // 过滤掉超出当前课文词表范围或空白的无效索引
+                    saved = parsed.filter(idx => lessonData[idx] && lessonData[idx][1] !== "");
+                } else {
+                    saved = parsed;
+                }
+            } catch (e) {
+                saved = [];
+            }
+        }
+
+        function hidePopover() {
+            const pop = document.getElementById('buddyPopover');
+            if (pop) pop.style.display = 'none';
+            document.querySelectorAll('ruby').forEach(r => r.classList.remove('is-active'));
+        }
+
+        window.onload = function() {
+            // 恢复主题与字号偏好
+            if (localStorage.getItem('reader_pref_theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggleBtn').classList.add('is-active');
+            }
+            applyFontSize(currentFontSize);
+
+            if (typeof lessonTitle !== 'undefined') {
+                document.getElementById('articleTitle').innerText = lessonTitle;
+                document.title = lessonTitle;
+            }
+
+            initSavedWords();
+
+            if (typeof lessonData !== 'undefined') { 
+                render(); 
+                renderNB(); 
+            }
+
+            renderMultipleChoiceQuizzes();
+            renderEssayQuizzes();
+            updateQuizTabCounts();
+            switchQuizTab('mc');
+            
+            document.body.appendChild(document.getElementById('buddyPopover'));
+            document.addEventListener('click', hidePopover);
+
+            const articleCard = document.getElementById('articleCard');
+            if (articleCard) articleCard.addEventListener('scroll', hidePopover, { passive: true });
+            window.addEventListener('resize', hidePopover, { passive: true });
+        };
+
+        /* ==========================================================================
+           🔠 优化 4：正文字号与拼音无级同步缩放（带本地偏好记忆）
+           ========================================================================== */
+        function applyFontSize(size) {
+            currentFontSize = Math.min(28, Math.max(16, size));
+            const rubySize = Math.round(currentFontSize * 0.64 * 10) / 10;
+            document.documentElement.style.setProperty('--article-font-size', `${currentFontSize}px`);
+            document.documentElement.style.setProperty('--ruby-font-size', `${rubySize}px`);
+            localStorage.setItem('reader_pref_font_size', currentFontSize);
+        }
+
+        function adjustFontSize(delta) {
+            hidePopover();
+            applyFontSize(currentFontSize + delta);
+        }
+
+        /* ==========================================================================
+           📍 优化 2：题干与解析中的“第 X 段”自动转化为双向联动定位微标
+           ========================================================================== */
+        function parseChineseNumber(str) {
+            if (/^\d+$/.test(str)) return parseInt(str, 10);
+            const map = { '一': 1, '二': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10 };
+            if (str.length === 1) return map[str] || null;
+            if (str.length === 2 && str.startsWith('十')) return 10 + (map[str[1]] || 0);
+            if (str.length === 2 && str.endsWith('十')) return (map[str[0]] || 1) * 10;
+            if (str.length === 3 && str[1] === '十') return (map[str[0]] || 1) * 10 + (map[str[2]] || 0);
+            return null;
+        }
+
+        function linkifyParagraphReferences(htmlText) {
+            if (!htmlText) return "";
+            return htmlText.replace(/第\s*([0-9一二三四五六七八九十]+)\s*段/g, (match, numStr) => {
+                const pNum = parseChineseNumber(numStr);
+                if (!pNum) return match;
+                return `<span class="para-jump-link" onclick="scrollToParagraph(${pNum}, event)" title="点击定位至左侧课文第 ${pNum} 段">📍第${pNum}段</span>`;
+            });
+        }
+
+        function scrollToParagraph(pNum, event) {
+            if (event) event.stopPropagation();
+            const targetP = document.getElementById(`article-p-${pNum}`);
+            if (!targetP) return;
+
+            targetP.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            targetP.classList.remove('p-highlight-flash');
+            void targetP.offsetWidth; // 触发重绘以重新播放动画
+            targetP.classList.add('p-highlight-flash');
+        }
+
+        /* ==========================================================================
+           🗂️ 优化 3：实时作答进度更新 + 选完自动平滑滚向下一题 + 漏题自动定位
+           ========================================================================== */
+        function updateQuizTabCounts() {
+            const mcTotal = (typeof quizDataList !== 'undefined') ? quizDataList.length : 0;
+            const mcAnswered = Object.keys(userSelectedAnswers).length;
+
+            const essayTotal = (typeof essayDataList !== 'undefined') ? essayDataList.length : 0;
+            let essayAnswered = 0;
+            if (typeof essayDataList !== 'undefined') {
+                essayDataList.forEach(e => {
+                    const draft = (localStorage.getItem(getEssayStorageKey(e.id)) || localStorage.getItem(`essay_draft_${e.id}`) || "").trim();
+                    if (draft.length > 0) essayAnswered++;
+                });
+            }
+
+            document.getElementById('tabBtnMc').innerText = `📝 客观选择题 (${mcAnswered}/${mcTotal})`;
+            document.getElementById('tabBtnEssay').innerText = `✍️ 主观简答题 (${essayAnswered}/${essayTotal})`;
+        }
+
+        function autoScrollToNextMcQuestion(currentQId) {
+            if (typeof quizDataList === 'undefined') return;
+            const currentIndex = quizDataList.findIndex(q => q.id === currentQId);
+            if (currentIndex === -1) return;
+
+            // 优先寻找当前题目之后第一道尚未作答的题目
+            let nextTargetBox = null;
+            for (let i = currentIndex + 1; i < quizDataList.length; i++) {
+                const nextQ = quizDataList[i];
+                if (!userSelectedAnswers[nextQ.id]) {
+                    nextTargetBox = document.querySelector(`div[data-q-id="${nextQ.id}"]`);
+                    break;
+                }
+            }
+
+            setTimeout(() => {
+                if (nextTargetBox) {
+                    nextTargetBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else if (Object.keys(userSelectedAnswers).length === quizDataList.length) {
+                    // 全部答完时，平滑滚动至底部的“提交客观题检查”按钮
+                    const submitFooter = document.getElementById('mcSubmitFooter');
+                    if (submitFooter) submitFooter.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 260);
+        }
+
+        function switchQuizTab(tabName) {
+            currentQuizTab = tabName;
+            const mcWrap = document.getElementById('mcSectionWrapper');
+            const essayWrap = document.getElementById('essaySectionWrapper');
+
+            document.getElementById('tabBtnMc').classList.toggle('is-active', tabName === 'mc');
+            document.getElementById('tabBtnEssay').classList.toggle('is-active', tabName === 'essay');
+            document.getElementById('tabBtnAll').classList.toggle('is-active', tabName === 'all');
+
+            if (tabName === 'mc') {
+                mcWrap.style.display = 'block';
+                essayWrap.style.display = 'none';
+                essayWrap.style.marginTop = '0';
+                essayWrap.style.paddingTop = '0';
+                essayWrap.style.borderTop = 'none';
+            } else if (tabName === 'essay') {
+                mcWrap.style.display = 'none';
+                essayWrap.style.display = 'block';
+                essayWrap.style.marginTop = '0';
+                essayWrap.style.paddingTop = '0';
+                essayWrap.style.borderTop = 'none';
+            } else {
+                mcWrap.style.display = 'block';
+                essayWrap.style.display = 'block';
+                essayWrap.style.marginTop = '36px';
+                essayWrap.style.paddingTop = '24px';
+                essayWrap.style.borderTop = '3px solid var(--input-border)';
+            }
+        }
+
+        /* 📖 生词本折叠与展开 */
+        function toggleNotebookCollapse() {
+            isNbCollapsed = !isNbCollapsed;
+            const card = document.getElementById('vocabNotebookCard');
+            const btn = document.getElementById('collapseNbBtn');
+            card.classList.toggle('is-collapsed', isNbCollapsed);
+            btn.innerText = isNbCollapsed ? "展开 ▼" : "收起 ▲";
+        }
+
+        /* 📋 通用剪贴板复制工具 */
+        function copyTextToClipboard(text, btnElement, successLabel) {
+            const originalText = btnElement ? btnElement.innerText : "";
+            const showSuccess = () => {
+                if (btnElement) {
+                    btnElement.innerText = successLabel || "✓ 已复制";
+                    setTimeout(() => { btnElement.innerText = originalText; }, 1800);
+                }
+            };
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(showSuccess).catch(() => fallbackCopy(text, showSuccess));
+            } else {
+                fallbackCopy(text, showSuccess);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.left = "-9999px";
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand('copy');
+                if (callback) callback();
+            } catch (err) {
+                alert("复制失败，请手动全选复制。");
+            }
+            document.body.removeChild(ta);
+        }
+
+        /* 🔤 拼音三态切换逻辑 */
+        function togglePinyinMode() {
+            const cnt = document.getElementById('content');
+            const btn = document.getElementById('pinyinToggleBtn');
+            if (pinyinMode === 'hover') {
+                pinyinMode = 'show';
+                cnt.setAttribute('data-pinyin-mode', 'show');
+                btn.innerText = '🔤 拼音：全显';
+                btn.classList.add('is-active');
+            } else if (pinyinMode === 'show') {
+                pinyinMode = 'hide';
+                cnt.setAttribute('data-pinyin-mode', 'hide');
+                btn.innerText = '🔤 拼音：隐藏';
+                btn.classList.add('is-active');
+            } else {
+                pinyinMode = 'hover';
+                cnt.setAttribute('data-pinyin-mode', 'hover');
+                btn.innerText = '🔤 拼音：悬停';
+                btn.classList.remove('is-active');
+            }
+        }
+
+        /* 📤 生词本一键导出逻辑 */
+        function exportNotebook(btnElement) {
+            if (saved.length === 0) {
+                alert("📖 生词本目前是空的哦！请先在正文中点击词语并点击 Copy 收集生词。");
+                return;
+            }
+            const title = (typeof lessonTitle !== 'undefined') ? lessonTitle : document.getElementById('articleTitle').innerText;
+            let lines = [`📖 《${title}》生词整理表（共 ${saved.length} 词）`, "========================================"];
+            saved.forEach((idx, i) => {
+                const item = lessonData[idx];
+                if (item) {
+                    lines.push(`${i + 1}. 【${item[0]}】 [${item[1]}]`);
+                    lines.push(`   • EN: ${item[2]}`);
+                    lines.push(`   • BM: ${item[3]}`);
+                }
+            });
+            copyTextToClipboard(lines.join("\n"), btnElement, "✓ 词表已复制");
+        }
+
+        /* 📋 一键生成作答报告逻辑 */
+        function generateStudyReport(btnElement) {
+            const title = (typeof lessonTitle !== 'undefined') ? lessonTitle : document.getElementById('articleTitle').innerText;
+            const nowStr = new Date().toLocaleString('zh-CN', { hour12: false });
+            let report = [];
+
+            report.push(`📄 《${title}》学习作答报告`);
+            report.push(`生成时间：${nowStr}`);
+            report.push(`========================================\n`);
+
+            report.push(`【一、客观选择题】`);
+            if (typeof quizDataList !== 'undefined' && quizDataList.length > 0) {
+                let correctCount = 0;
+                const totalQ = quizDataList.length;
+                const answeredQ = Object.keys(userSelectedAnswers).length;
+
+                quizDataList.forEach(q => {
+                    const chosen = userSelectedAnswers[q.id];
+                    if (chosen) {
+                        const letter = chosen.trim().charAt(0);
+                        const isRight = (letter === q.answer);
+                        if (isRight) correctCount++;
+                        const statusTag = isQuizSubmitted ? (isRight ? "✅ 正确" : `❌ 待订正`) : "已作答";
+                        report.push(`${q.id}. ${q.question.replace(/\n/g, ' ')}`);
+                        report.push(`   👉 我的选择：${chosen} 【${statusTag}】`);
+                    } else {
+                        report.push(`${q.id}. ${q.question.replace(/\n/g, ' ')}`);
+                        report.push(`   👉 我的选择：（未作答）`);
+                    }
+                });
+                if (isQuizSubmitted) {
+                    report.push(`\n📊 客观题总分：${correctCount} / ${totalQ} 分\n`);
+                } else {
+                    report.push(`\n📊 客观题进度：已答 ${answeredQ} / ${totalQ} 题（尚未点击提交检查）\n`);
+                }
+            } else {
+                report.push(`暂无客观题数据\n`);
+            }
+
+            report.push(`【二、主观简答题】`);
+            if (typeof essayDataList !== 'undefined' && essayDataList.length > 0) {
+                essayDataList.forEach(essay => {
+                    const draft = (localStorage.getItem(getEssayStorageKey(essay.id)) || localStorage.getItem(`essay_draft_${essay.id}`) || "").trim();
+                    report.push(`${essay.question}`);
+                    report.push(`   ✍️ 我的作答：${draft ? draft : "（未填写）"}\n`);
+                });
+            } else {
+                report.push(`暂无简答题数据\n`);
+            }
+
+            report.push(`【三、我的生词本记录（共 ${saved.length} 词）】`);
+            if (saved.length > 0 && typeof lessonData !== 'undefined') {
+                const words = saved.map(idx => lessonData[idx] ? `${lessonData[idx][0]} [${lessonData[idx][1]}]` : "").filter(Boolean);
+                report.push(words.join(" ｜ "));
+            } else {
+                report.push(`暂未收集生词`);
+            }
+
+            copyTextToClipboard(report.join("\n"), btnElement, "✓ 报告已复制！");
+        }
+
+        function toggleFocusMode() {
+            isFocusMode = !isFocusMode;
+            const focusBtn = document.getElementById('focusToggleBtn');
+            const notebookCard = document.getElementById('vocabNotebookCard');
+            const articleCard = document.querySelector('.article-card');
+            const quizSideCard = document.querySelector('.quiz-side-card');
+
+            focusBtn.classList.toggle('is-active', isFocusMode);
+
+            if (isFocusMode) {
+                focusBtn.innerText = "🖥️ 退出专注";
+                notebookCard.style.opacity = "0";
+                notebookCard.style.transform = "translateY(-10px)";
+                setTimeout(() => { notebookCard.style.display = "none"; }, 250);
+
+                if (articleCard) articleCard.style.maxHeight = "88vh";
+                if (quizSideCard && quizSideCard.style.display === "block") quizSideCard.style.maxHeight = "88vh";
+            } else {
+                focusBtn.innerText = "📖 专注模式";
+                notebookCard.style.display = "block";
+                setTimeout(() => {
+                    notebookCard.style.opacity = "1";
+                    notebookCard.style.transform = "translateY(0)";
+                }, 10);
+
+                if (articleCard) articleCard.style.maxHeight = "82vh";
+                if (quizSideCard && quizSideCard.style.display === "block") quizSideCard.style.maxHeight = "82vh";
+            }
+        }
+
+        function render() {
+            const cnt = document.getElementById('content'); 
+            if (!cnt) return;
+            cnt.innerHTML = "";
+            let pNum = 1; 
+            let p = document.createElement("p"); 
+            
+            const topAnalysis = document.getElementById('teacherArticleAnalysis');
+            const topAnalysisContent = document.getElementById('teacherArticleAnalysisContent');
+            if (topAnalysis && topAnalysisContent) {
+                if (isTeacherMode && typeof lessonTeacherAnalysis !== 'undefined' && lessonTeacherAnalysis.overview) {
+                    topAnalysis.style.display = "block";
+                    topAnalysisContent.innerHTML = `<strong>💡 课文总览与赏析要点：</strong><br>${linkifyParagraphReferences(lessonTeacherAnalysis.overview)}`;
+                } else {
+                    topAnalysis.style.display = "none";
+                }
+            }
+
+            function finalizeParagraph(paragraphElement) {
+                if (paragraphElement.childNodes.length === 0) return;
+                const textContent = paragraphElement.innerText.trim();
+                const isAuthorLineAtEnd = (textContent.startsWith("（") && textContent.includes("《"));
+                
+                if (isAuthorLineAtEnd) {
+                    paragraphElement.style.textIndent = "0";
+                    paragraphElement.style.textAlign = "right";  
+                    paragraphElement.style.color = "var(--text-muted)";    
+                    paragraphElement.style.fontSize = "15px";     
+                    paragraphElement.style.marginTop = "30px";    
+                    cnt.appendChild(paragraphElement);
+                } else {
+                    const currentPNum = pNum;
+                    paragraphElement.id = `article-p-${currentPNum}`;
+                    paragraphElement.style.position = "relative";
+                    paragraphElement.style.textIndent = "2em"; 
+                    paragraphElement.style.paddingLeft = "0"; 
+                    paragraphElement.style.marginBottom = "25px";
+                    
+                    let s = document.createElement("span");
+                    s.className = "p-index";
+                    s.innerText = `第${currentPNum}段`;
+                    
+                    paragraphElement.insertBefore(s, paragraphElement.firstChild); 
+                    cnt.appendChild(paragraphElement);
+
+                    if (typeof lessonTeacherAnalysis !== 'undefined' && lessonTeacherAnalysis.paragraphs && lessonTeacherAnalysis.paragraphs[currentPNum]) {
+                        let pAnalysis = document.createElement("div");
+                        pAnalysis.id = `p-analysis-${currentPNum}`;
+                        pAnalysis.className = "teacher-p-analysis";
+                        pAnalysis.style.textIndent = "0";
+                        pAnalysis.innerHTML = `<strong>🔍 第 ${currentPNum} 段文本赏析：</strong>${linkifyParagraphReferences(lessonTeacherAnalysis.paragraphs[currentPNum])}`;
+                        
+                        pAnalysis.style.display = isTeacherMode ? "block" : "none";
+                        cnt.appendChild(pAnalysis);
+                    }
+                    pNum++; 
+                }
+            }
+
+            if (typeof lessonData !== 'undefined') {
+                lessonData.forEach((d, i) => {
+                    if (d[0] === "\n") { finalizeParagraph(p); p = document.createElement("p"); }
+                    else if (d[1] === "") { let s = document.createElement("span"); s.innerText = d[0]; p.appendChild(s); }
+                    else {
+                        let r = document.createElement("ruby"); 
+                        r.setAttribute("data-word-index", i);
+                        r.onclick = (e) => { 
+                            e.stopPropagation(); 
+                            document.querySelectorAll('ruby').forEach(x=>x.classList.remove('is-active')); 
+                            r.classList.add('is-active'); 
+                            openPop(e.currentTarget, i);
+                        };
+                        r.innerHTML = `${d[0]}<rt>${d[1]}</rt>`; 
+                        p.appendChild(r);
+                    }
+                });
+                finalizeParagraph(p);
+            }
+        }
+
+        function renderMultipleChoiceQuizzes() {
+            const section = document.getElementById('quizSection');
+            const container = document.getElementById('quizContainer');
+            if (!container) return;
+            section.style.display = "block";
+            container.innerHTML = "";
+            
+            if (typeof quizDataList === 'undefined' || quizDataList.length === 0) {
+                container.innerHTML = "<p style='color:var(--text-muted);'>暂无选择题数据</p>";
+                return;
+            }
+
+            userSelectedAnswers = {};
+            isQuizSubmitted = false;
+            document.getElementById('quizResultScore').style.display = "none";
+            document.getElementById('submitQuizBtn').style.display = "inline-block";
+            document.getElementById('submitQuizBtn').disabled = false;
+            document.getElementById('submitQuizBtn').innerText = "提交客观题检查 🚀";
+            document.getElementById('retryQuizBtn').style.display = "none";
+            document.getElementById('showCorrectBtn').style.display = "none";
+            updateQuizTabCounts();
+
+            quizDataList.forEach((q) => {
+                const qBox = document.createElement('div');
+                qBox.className = "quiz-question-box";
+                qBox.setAttribute("data-q-id", q.id);
+
+                const qText = document.createElement('div');
+                qText.style.fontWeight = "800";
+                qText.style.fontSize = "15.5px";
+                qText.style.marginBottom = "10px";
+                const formattedQuestion = linkifyParagraphReferences(q.question.replace(/\n/g, '<br>'));
+                qText.innerHTML = `${q.id}. ${formattedQuestion}`;
+                qBox.appendChild(qText);
+
+                if (q.teacherAnalysis) {
+                    let qAnalysis = document.createElement("div");
+                    qAnalysis.id = `q-analysis-${q.id}`;
+                    qAnalysis.innerHTML = `<strong>📐 设题意图与核心考点：</strong>${linkifyParagraphReferences(q.teacherAnalysis)}`;
+                    qAnalysis.style.display = isTeacherMode ? "block" : "none";
+                    qBox.appendChild(qAnalysis);
+                }
+
+                const oBox = document.createElement('div');
+                oBox.className = "options-group";
+                
+                let pureContents = q.options.map(opt => opt.replace(/^[A-D]\s+/, ""));
+                let shuffledContents = [...pureContents].sort(() => Math.random() - 0.5);
+                const prefixes = ["A", "B", "C", "D"];
+
+                shuffledContents.forEach((content, index) => {
+                    const prefix = prefixes[index];
+                    const finalOptText = `${prefix} ${content}`;
+                    const btn = document.createElement('button');
+                    btn.innerText = finalOptText;
+                    btn.className = "quiz-choice-btn";
+                    
+                    const originalMatch = q.options.find(o => o.replace(/^[A-D]\s+/, "") === content);
+                    btn.setAttribute("data-original-text", originalMatch || finalOptText);
+
+                    btn.style.display = "block";
+                    btn.style.width = "100%";
+                    btn.style.textAlign = "left";
+                    btn.style.margin = "6px 0";
+                    btn.style.padding = "10px 14px";
+                    btn.style.borderRadius = "var(--radius-md)";
+                    btn.style.cursor = "pointer";
+                    btn.style.fontSize = "14.5px";
+
+                    btn.onclick = () => {
+                        if (btn.disabled) return;
+                        Array.from(oBox.children).forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        userSelectedAnswers[q.id] = originalMatch || finalOptText;
+                        qBox.classList.remove('quiz-unanswered-flash');
+
+                        // 实时更新顶部选项卡进度并自动滚向下一道未答题目
+                        updateQuizTabCounts();
+                        autoScrollToNextMcQuestion(q.id);
+                    };
+                    oBox.appendChild(btn);
+                });
+
+                qBox.appendChild(oBox);
+                container.appendChild(qBox);
+            });
+        }
+
+        function renderEssayQuizzes() {
+            const container = document.getElementById('essayContainer');
+            if (!container) return;
+            container.innerHTML = "";
+
+            if (typeof essayDataList === 'undefined' || essayDataList.length === 0) {
+                container.innerHTML = "<p style='color:var(--text-muted); font-size:13px;'>暂无简答题数据</p>";
+                return;
+            }
+
+            essayDataList.forEach((essay) => {
+                const eBox = document.createElement('div');
+                eBox.style.marginBottom = "25px";
+                eBox.style.paddingBottom = "18px";
+                eBox.style.borderBottom = "1px dashed var(--input-border)";
+                eBox.setAttribute("data-essay-id", essay.id);
+
+                const eText = document.createElement('div');
+                eText.style.fontWeight = "800";
+                eText.style.fontSize = "15.5px";
+                eText.style.marginBottom = "10px";
+                eText.innerHTML = linkifyParagraphReferences(essay.question);
+                eBox.appendChild(eText);
+
+                if (essay.teacherAnalysis) {
+                    let eAnalysis = document.createElement("div");
+                    eAnalysis.id = `essay-analysis-${essay.id}`;
+                    eAnalysis.innerHTML = `<strong>📐 考点与答题思路：</strong>${linkifyParagraphReferences(essay.teacherAnalysis)}`;
+                    eAnalysis.style.display = isTeacherMode ? "block" : "none";
+                    eBox.appendChild(eAnalysis);
+                }
+
+                const textarea = document.createElement('textarea');
+                textarea.className = "essay-textarea";
+                textarea.placeholder = "请在此输入您的解答思路（内容将自动实时保存在本地浏览器中）...";
+                
+                // 优先读取按课文隔离的新键名，若无则回退读取旧键名并迁移
+                const scopedKey = getEssayStorageKey(essay.id);
+                const legacyKey = `essay_draft_${essay.id}`;
+                let savedDraft = localStorage.getItem(scopedKey);
+                if (savedDraft === null && localStorage.getItem(legacyKey) !== null) {
+                    savedDraft = localStorage.getItem(legacyKey);
+                    localStorage.setItem(scopedKey, savedDraft);
+                }
+                if (savedDraft) {
+                    textarea.value = savedDraft;
+                }
+
+                textarea.oninput = () => {
+                    localStorage.setItem(scopedKey, textarea.value);
+                    updateQuizTabCounts();
+                };
+
+                eBox.appendChild(textarea);
+
+                const toggleAnswerBtn = document.createElement('button');
+                toggleAnswerBtn.className = "no-print";
+                toggleAnswerBtn.innerText = "👁️ 查看参考答案";
+                toggleAnswerBtn.style.cssText = "margin-top: 10px; padding: 6px 14px; background: var(--primary-color); color: #ffffff; border: none; border-radius: 15px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: opacity 0.2s;";
+                
+                const answerBox = document.createElement('div');
+                answerBox.className = "essay-answer-box";
+                answerBox.innerHTML = `<strong>💡 参考答案：</strong><br>${linkifyParagraphReferences(essay.sampleAnswer)}`;
+
+                toggleAnswerBtn.onclick = () => {
+                    if (answerBox.style.display === "block") {
+                        answerBox.style.display = "none";
+                        toggleAnswerBtn.innerText = "👁️ 查看参考答案";
+                    } else {
+                        answerBox.style.display = "block";
+                        toggleAnswerBtn.innerText = "🔒 隐藏参考答案";
+                    }
+                };
+
+                eBox.appendChild(toggleAnswerBtn);
+                eBox.appendChild(answerBox);
+                container.appendChild(eBox);
+            });
+        }
+
+        function clearEssayDrafts() {
+            if (confirm("⚠️ 确定要清空当前课文所有简答题的本地输入草稿吗？")) {
+                if (typeof essayDataList !== 'undefined') {
+                    essayDataList.forEach(essay => {
+                        localStorage.removeItem(getEssayStorageKey(essay.id));
+                        localStorage.removeItem(`essay_draft_${essay.id}`);
+                    });
+                }
+                renderEssayQuizzes();
+                updateQuizTabCounts();
+            }
+        }
+
+        function toggleTeacherMode() {
+            isTeacherMode = !isTeacherMode;
+            const btn = document.getElementById('teacherToggleBtn');
+            btn.innerText = isTeacherMode ? "❌ 关闭文本赏析" : "👁️ 文本赏析";
+            btn.classList.toggle('is-active', isTeacherMode);
+            
+            const topAnalysis = document.getElementById('teacherArticleAnalysis');
+            const topAnalysisContent = document.getElementById('teacherArticleAnalysisContent');
+            if (topAnalysis && topAnalysisContent) {
+                if (isTeacherMode && typeof lessonTeacherAnalysis !== 'undefined' && lessonTeacherAnalysis.overview) {
+                    topAnalysis.style.display = "block";
+                    topAnalysisContent.innerHTML = `<strong>💡 课文总览与赏析要点：</strong><br>${linkifyParagraphReferences(lessonTeacherAnalysis.overview)}`;
+                } else {
+                    topAnalysis.style.display = "none";
+                }
+            }
+
+            document.querySelectorAll('.teacher-p-analysis').forEach(panel => {
+                panel.style.display = isTeacherMode ? "block" : "none";
+            });
+
+            if (typeof quizDataList !== 'undefined') {
+                quizDataList.forEach(q => {
+                    const qPanel = document.getElementById(`q-analysis-${q.id}`);
+                    if (qPanel) qPanel.style.display = isTeacherMode ? "block" : "none";
+                });
+            }
+
+            if (typeof essayDataList !== 'undefined') {
+                essayDataList.forEach(e => {
+                    const ePanel = document.getElementById(`essay-analysis-${e.id}`);
+                    if (ePanel) ePanel.style.display = isTeacherMode ? "block" : "none";
+                });
+            }
+        }
+
+        function submitAndShowWrongOnly() {
+            const totalQuestions = quizDataList.length;
+            const answeredCount = Object.keys(userSelectedAnswers).length;
+
+            // 若有漏题，自动平滑滚动到第一道未答题目并闪烁提醒，取代生硬的 alert 弹窗
+            if (answeredCount < totalQuestions) {
+                const firstUnanswered = quizDataList.find(q => !userSelectedAnswers[q.id]);
+                if (firstUnanswered) {
+                    if (currentQuizTab === 'essay') switchQuizTab('mc');
+                    const targetBox = document.querySelector(`div[data-q-id="${firstUnanswered.id}"]`);
+                    if (targetBox) {
+                        targetBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetBox.classList.remove('quiz-unanswered-flash');
+                        void targetBox.offsetWidth;
+                        targetBox.classList.add('quiz-unanswered-flash');
+                    }
+                }
+                return;
+            }
+
+            let score = 0;
+            isQuizSubmitted = true;
+
+            quizDataList.forEach(q => {
+                const qBox = document.querySelector(`div[data-q-id="${q.id}"]`);
+                const buttons = qBox.querySelectorAll('.quiz-choice-btn');
+                const studentOriginalText = userSelectedAnswers[q.id];
+
+                let selectedBtn = null;
+                buttons.forEach(btn => {
+                    if (btn.getAttribute("data-original-text") === studentOriginalText) selectedBtn = btn;
+                });
+
+                const studentLetter = studentOriginalText.trim().charAt(0);
+                buttons.forEach(btn => {
+                    btn.disabled = true; 
+                    btn.style.cursor = "default";
+                    btn.style.boxShadow = "none";
+
+                    if (btn === selectedBtn && studentLetter === q.answer) {
+                        btn.classList.remove('selected');
+                        btn.classList.add('correct-answer-hint');
+                        if (!btn.innerText.includes("  (✅)")) btn.innerText += "  (✅)";
+                    }
+                    if (btn === selectedBtn && studentLetter !== q.answer) {
+                        btn.classList.remove('selected');
+                        btn.classList.add('wrong-answer-hint');
+                        if (!btn.innerText.includes("  (❌️)")) btn.innerText += "  (❌️)";
+                    }
+                });
+
+                if (studentLetter === q.answer) score++;
+            });
+
+            const resultBox = document.getElementById('quizResultScore');
+            resultBox.style.display = "block";
+            resultBox.innerHTML = `🎉 客观题得分：<span style="font-size: 22px; color: var(--accent-color); font-weight: 800;">${score}</span> / ${totalQuestions} 分`;
+            
+            document.getElementById('submitQuizBtn').style.display = "none";
+            document.getElementById('retryQuizBtn').style.display = "inline-block";
+            document.getElementById('showCorrectBtn').style.display = "inline-block";
+        }
+
+        function retryQuizAnswers() {
+            renderMultipleChoiceQuizzes();
+            renderEssayQuizzes();
+            document.getElementById('quizResultScore').style.display = "none";
+            document.getElementById('retryQuizBtn').style.display = "none";
+            document.getElementById('showCorrectBtn').style.display = "none";
+            document.getElementById('submitQuizBtn').style.display = "inline-block";
+            const firstBox = document.querySelector('.quiz-question-box');
+            if (firstBox) firstBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function revealRealCorrectAnswers() {
+            quizDataList.forEach(q => {
+                const qBox = document.querySelector(`div[data-q-id="${q.id}"]`);
+                qBox.querySelectorAll('.quiz-choice-btn').forEach(btn => {
+                    const btnOriginalText = btn.getAttribute("data-original-text");
+                    const btnLetter = btnOriginalText ? btnOriginalText.trim().charAt(0) : btn.innerText.trim().charAt(0); 
+
+                    if (btnLetter === q.answer) {
+                        let currentText = btn.innerText.replace("  (✅)", "").replace(" (✅)", "");
+                        btn.innerText = currentText + "  (✅)";
+                        btn.classList.remove('selected', 'wrong-answer-hint');
+                        btn.classList.add('correct-answer-hint');
+                    }
+                });
+            });
+            document.getElementById('showCorrectBtn').style.display = "none";
+        }
+
+        /* 💬 词典气泡智能翻转定位（防屏幕顶部遮挡） */
+        function openPop(el, i) {
+            currentIdx = i; const d = lessonData[i];
+            document.getElementById('popWord').innerText = d[0];
+            document.getElementById('popPinyin').innerText = `[${d[1]}]`;
+            document.getElementById('popEn').innerText = d[2]; 
+            document.getElementById('popBm').innerText = d[3];
+            
+            const pop = document.getElementById('buddyPopover'); 
+            const arrow = document.getElementById('popArrow');
+            pop.classList.remove('is-flipped');
+            pop.style.display = 'block'; 
+            
+            const rect = el.getBoundingClientRect(); 
+            const popRect = pop.getBoundingClientRect();
+            
+            let top = rect.top - popRect.height - 12;
+            if (top < 12) {
+                top = rect.bottom + 12;
+                pop.classList.add('is-flipped');
+            }
+
+            let left = rect.left + (rect.width / 2) - (popRect.width / 2);
+            if (left + popRect.width > window.innerWidth - 15) left = window.innerWidth - popRect.width - 15;
+            if (left < 15) left = 15;
+            
+            arrow.style.left = `${(rect.left + rect.width / 2) - left}px`; 
+            pop.style.top = `${top}px`; 
+            pop.style.left = `${left}px`;
+        }
+
+        function saveToNotebook(e) { 
+            e.stopPropagation(); 
+            if (!saved.includes(currentIdx)) { 
+                saved.push(currentIdx); 
+                localStorage.setItem(SAVED_WORDS_KEY, JSON.stringify(saved)); 
+                renderNB(); 
+            } 
+            const btn = e.target; 
+            btn.innerText = "✓ 已存"; 
+            setTimeout(() => btn.innerText = "Copy 📋", 1000); 
+        }
+
+        function renderNB() { 
+            const list = document.getElementById('notebookList'); 
+            const badge = document.getElementById('nbCountBadge');
+            if (badge) badge.innerText = `${saved.length} 词`;
+            if (!list) return;
+
+            if (saved.length === 0) { 
+                list.innerHTML = "<span style='color:var(--text-muted); font-size:13.5px;'>点击正文词语 Copy 记录生词</span>"; 
+            } else { 
+                list.innerHTML = ""; 
+                saved.forEach(idx => { 
+                    const item = lessonData[idx]; 
+                    if(!item) return; 
+                    
+                    const div = document.createElement("div"); 
+                    div.className = "notebook-item"; 
+                    div.style.display = "inline-flex";
+                    div.style.alignItems = "center";
+                    div.style.gap = "6px";
+                    div.style.cursor = "pointer";
+
+                    const textSpan = document.createElement("span");
+                    textSpan.innerText = item[0];
+                    textSpan.onclick = (e) => { 
+                        e.stopPropagation(); 
+                        const target = document.querySelector(`ruby[data-word-index="${idx}"]`); 
+                        if(target) { 
+                            target.scrollIntoView({behavior: "smooth", block: "center"}); 
+                            document.querySelectorAll('ruby').forEach(r => r.classList.remove('is-active')); 
+                            setTimeout(() => { 
+                                target.classList.add('is-active'); 
+                                openPop(target, idx); 
+                            }, 450); 
+                        } 
+                    }; 
+                    div.appendChild(textSpan);
+
+                    const deleteBtn = document.createElement("span");
+                    deleteBtn.innerText = "×";
+                    deleteBtn.style.color = "var(--text-muted)";
+                    deleteBtn.style.fontWeight = "bold";
+                    deleteBtn.style.padding = "0 4px";
+                    deleteBtn.style.cursor = "pointer";
+                    deleteBtn.onclick = (e) => { e.stopPropagation(); removeSingleWordFromNotebook(idx); };
+                    div.appendChild(deleteBtn);
+
+                    list.appendChild(div); 
+                }); 
+            } 
+        }
+
+        function removeSingleWordFromNotebook(idx) {
+            saved = saved.filter(savedIdx => savedIdx !== idx);
+            localStorage.setItem(SAVED_WORDS_KEY, JSON.stringify(saved)); 
+            renderNB(); 
+            if (saved.length === 0) {
+                document.getElementById('gameContainer').style.display = 'none'; 
+                const gameBtn = document.getElementById('gameToggleBtn');
+                gameBtn.innerText = "🎯 生词测试";
+                gameBtn.classList.remove('is-active');
+            }
+        }
+
+        function forceClearNotebook() { 
+            localStorage.removeItem(SAVED_WORDS_KEY); 
+            localStorage.removeItem('saved_104');
+            saved = []; 
+            renderNB(); 
+            document.getElementById('gameContainer').style.display = 'none'; 
+            const gameBtn = document.getElementById('gameToggleBtn');
+            gameBtn.innerText = "🎯 生词测试"; 
+            gameBtn.classList.remove('is-active');
+        }
+
+        function toggleGameMode() { 
+            const container = document.getElementById('gameContainer'); 
+            const btn = document.getElementById('gameToggleBtn'); 
+            if (container.style.display === 'block') { 
+                container.style.display = 'none'; 
+                btn.innerText = "🎯 生词测试"; 
+                btn.classList.remove('is-active');
+            } else { 
+                if (saved.length < 1) { 
+                    alert("生词本是空的哦！要先在正文里点生词进行 Copy 收集！"); 
+                    return; 
+                } 
+                container.style.display = 'block'; 
+                btn.innerText = "📖 返回课文"; 
+                btn.classList.add('is-active');
+                startQuizGame(); 
+                container.scrollIntoView({behavior: "smooth"}); 
+            } 
+        }
+
+        function startQuizGame() { 
+            quizData = [...saved].sort(() => Math.random() - 0.5); 
+            currentQuizIdx = 0; 
+            loadQuestion(); 
+        }
+
+        function loadQuestion() { 
+            isLocked = false; 
+            const targetIdx = quizData[currentQuizIdx]; 
+            const data = lessonData[targetIdx]; 
+            document.getElementById('quizProgress').innerText = `第 ${currentQuizIdx + 1} / ${quizData.length} 题`; 
+            document.getElementById('quizQuestion').innerText = data[0]; 
+            document.getElementById('quizPinyin').innerText = `[${data[1]}]`; 
+            
+            const correctStr = (data[2].trim() + "；" + data[3].trim()); 
+            let options = [correctStr]; 
+            let others = lessonData.filter(d => d[1] !== "" && d[0] !== data[0]).map(d => (d[2].trim() + "；" + d[3].trim())); 
+            others = [...new Set(others)].filter(s => s !== correctStr).sort(() => Math.random() - 0.5); 
+            
+            for(let i=0; i<3; i++) { if(others[i]) options.push(others[i]); } 
+            options.sort(() => Math.random() - 0.5); 
+            
+            const optDiv = document.getElementById('quizOptions'); 
+            optDiv.innerHTML = ""; 
+            options.forEach(opt => { 
+                const b = document.createElement('button'); 
+                b.className = 'quiz-opt-btn'; 
+                b.innerText = opt; 
+                b.onclick = () => { 
+                    if(isLocked || b.classList.contains('wrong')) return; 
+                    if(opt.trim() === correctStr.trim()) { 
+                        isLocked = true; 
+                        b.classList.add('correct'); 
+                        setTimeout(() => { 
+                            currentQuizIdx++; 
+                            if(currentQuizIdx < quizData.length) loadQuestion(); 
+                            else { alert("🎉 完成测试！你真棒！"); toggleGameMode(); } 
+                        }, 800); 
+                    } else { b.classList.add('wrong'); } 
+                }; 
+                optDiv.appendChild(b); 
+            }); 
+        }
+
+        function toggleTheme() { 
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const nextTheme = isDark ? '' : 'dark';
+            document.documentElement.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('reader_pref_theme', nextTheme);
+            document.getElementById('themeToggleBtn').classList.toggle('is-active', !isDark);
+        }
+    </script>
 </body>
 </html>
